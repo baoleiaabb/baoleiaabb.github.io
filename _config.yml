@@ -4,7 +4,7 @@ SEOTitle: 鲍磊的博客 | Kris Blog
 header-img: img/post-bg-desk.jpg
 email: slowsoul@gmail.com
 description: "“毋意,毋必,毋固,毋我."
-keyword: "BY, BY Blog, 鲍磊的博客, baolei, 邱柏荧, database, oceanbase, oracle, mysql"
+keyword: "BY, BY Blog, 鲍磊的博客, baolei, database, oracle, mysql"
 url: "http://baoleiaabb.github.io"          # your host, for absolute URL
 #baseurl: ""      # for example, '/blog' if your blog hosted on 'host/blog'
 github_repo: "https://github.com/baoleiaabb/baoleiaabb.github.io.git" # you code repository
@@ -57,8 +57,8 @@ kramdown:
 # Gitalk
 gitalk:
   enable: true    #是否开启Gitalk评论
-  clientID: f2c84e7629bb1446c1a4                            #生成的clientID
-  clientSecret: ca6d6139d1e1b8c43f8b2e19492ddcac8b322d0d    #生成的clientSecret
+  clientID: e7f034ef36b985ed211b                            #生成的clientID
+  clientSecret: 035621f9c653f00ba2c6a8bee279640058cd0daf    #生成的clientSecret
   repo: baoleiaabb.github.io    #仓库名称
   owner: baoleiaabb    #github用户名
   admin: baoleiaabb
