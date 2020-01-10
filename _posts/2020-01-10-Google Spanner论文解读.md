@@ -4,8 +4,7 @@ title:      Google Spanner论文解读
 subtitle:   
 date:       2020-01-10
 author:     BY
-header-img: img/post-bg-unix-linux.jpg
-catalog: true
+header-img: img/post-bg-re-vs-ng2.jpg
 tags:
     - spanner
  
