@@ -94,8 +94,8 @@ service-worker: true
 # Friends
 friends: [
     {
-        title: "oceanbase",
-        href: "https://oceanbase.alipay.com"
+        title: "mysql",
+        href: "https://www.mysql.com/"
     },{
         title: "Oracle",
         href: "https://www.oracle.com"
