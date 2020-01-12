@@ -2,7 +2,7 @@
 layout:     post
 title:      Backup HANA DB using storage snapshot
 subtitle:   
-date:       2020-01-10
+date:       2020-01-12
 author:     BY
 header-img: img/post-bg-map.jpg
 catalog: true
