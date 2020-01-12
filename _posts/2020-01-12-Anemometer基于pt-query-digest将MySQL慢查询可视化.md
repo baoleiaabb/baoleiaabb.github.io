@@ -18,7 +18,7 @@ MySQL慢日志想必大家或多或少都有听说，主要是用来记录MySQL�
 
 在MySQL中，如果一个SQL需要长时间等待获取一把锁，那么这段获取锁的时间并不算执行时间，当SQL执行完成，释放相应的锁，才会记录到慢日志中，所以MySQL的慢日志中记录的顺序和实际的执行顺序可能不大一样。
 
-在默认情况下，MySQL的慢日志记录是关闭的,我们可以通过将设置slow_query_log=1来打开MySQL的慢查询日志，通过slow_query_log_file=file_name来设置慢查询的文件名，如果文件名没有设置，他的默认名字为 *host_name-slow.log*。同时，我们也可以设置 log-output={FILE|TABLE}来指定慢日志是写到文件还是数据库里面（如果设置log-output=NONE，将不进行慢日志记录，即使slow_query_log=1）。
+在默认情况下，MySQL的慢日志记录是关闭的,我们可以通过将设置slow_query_log=1来打开MySQL的慢查询日志，通过slow_query_log_file=file_name来设置慢查询的文件名,如果文件名没有设置，他的默认名字为 *host_name-slow.log*。同时，我们也可以设置 log-output={FILE\|TABLE}来指定慢日志是写到文件还是数据库里面（如果设置log-output=NONE，将不进行慢日志记录，即使slow_query_log=1）。
 
 MySQL的管理维护命令的慢SQL并不会被记录到MySQL慢日志中。常见的管理维护命令包括ALTER TABLE,ANALYZE TABLE, CHECK TABLE, CREATE INDEX, DROP INDEX, OPTIMIZE TABLE, 和REPAIR TABLE。如果希望MySQL的慢日志记录这类长时间执行的命令，可以设置log_slow_admin_statements 为1。
 
