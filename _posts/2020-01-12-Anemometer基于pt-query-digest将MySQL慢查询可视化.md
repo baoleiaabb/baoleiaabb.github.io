@@ -10,19 +10,19 @@ tags:
     - mysql
 ---
 
-## MySQL 慢日志简介：  
+ ###  1 Mysql 慢查询日志
 
-​    MySQL慢日志想必大家或多或少都有听说，主要是用来记录MySQL中长时间执行（超过long_query_time 单位秒），同时examine的行数超过min_examined_row_limit ,影响MySQL性能的SQL语句，以便DBA进行优化。
+MySQL慢日志想必大家或多或少都有听说，主要是用来记录MySQL中长时间执行（超过long_query_time 单位秒），同时examine的行数超过min_examined_row_limit ,影响MySQL性能的SQL语句，以便DBA进行优化。
 
-​    在MySQL中，如果一个SQL需要长时间等待获取一把锁，那么这段获取锁的时间并不算执行时间，当SQL执行完成，释放相应的锁，才会记录到慢日志中，所以MySQL的慢日志中记录的顺序和实际的执行顺序可能不大一样。
+在MySQL中，如果一个SQL需要长时间等待获取一把锁，那么这段获取锁的时间并不算执行时间，当SQL执行完成，释放相应的锁，才会记录到慢日志中，所以MySQL的慢日志中记录的顺序和实际的执行顺序可能不大一样。
 
-   在默认情况下，MySQL的慢日志记录是关闭的,我们可以通过将设置slow_query_log=1来打开MySQL的慢查询日志，通过slow_query_log_file=file_name来设置慢查询的文件名，如果文件名没有设置，他的默认名字为 *host_name-slow.log*。同时，我们也可以设置 log-output={FILE|TABLE}来指定慢日志是写到文件还是数据库里面（如果设置log-output=NONE，将不进行慢日志记录，即使slow_query_log=1）。
+ 在默认情况下，MySQL的慢日志记录是关闭的,我们可以通过将设置slow_query_log=1来打开MySQL的慢查询日志，通过slow_query_log_file=file_name来设置慢查询的文件名，如果文件名没有设置，他的默认名字为 *host_name-slow.log*。同时，我们也可以设置 log-output={FILE|TABLE}来指定慢日志是写到文件还是数据库里面（如果设置log-output=NONE，将不进行慢日志记录，即使slow_query_log=1）。
 
-​    MySQL的管理维护命令的慢SQL并不会被记录到MySQL慢日志中。常见的管理维护命令包括ALTER TABLE,ANALYZE TABLE, CHECK TABLE, CREATE INDEX, DROP INDEX, OPTIMIZE TABLE, 和REPAIR TABLE。如果希望MySQL的慢日志记录这类长时间执行的命令，可以设置log_slow_admin_statements 为1。
+MySQL的管理维护命令的慢SQL并不会被记录到MySQL慢日志中。常见的管理维护命令包括ALTER TABLE,ANALYZE TABLE, CHECK TABLE, CREATE INDEX, DROP INDEX, OPTIMIZE TABLE, 和REPAIR TABLE。如果希望MySQL的慢日志记录这类长时间执行的命令，可以设置log_slow_admin_statements 为1。
 
-​    通过设置log_queries_not_using_indexes=1，MySQL的慢日志也能记录那些不使用索引的SQL（并不需要超过long_query_time，两者条件满足一个即可）。但打开该选项的时候，如果你的数据库中存在大量没有使用索引的SQL，那么MySQL慢日志的记录量将非常大，所以通常还需要设置参数log_throttle_queries_not_using_indexes 。默认情况下，该参数为0，表示不限制，当设置改参数为大于0的值的时候，表示MySQL在一分钟内记录的不使用索引的SQL的数量，来避免慢日志记录过多的该类SQL.
+通过设置log_queries_not_using_indexes=1，MySQL的慢日志也能记录那些不使用索引的SQL（并不需要超过long_query_time，两者条件满足一个即可）。但打开该选项的时候，如果你的数据库中存在大量没有使用索引的SQL，那么MySQL慢日志的记录量将非常大，所以通常还需要设置参数log_throttle_queries_not_using_indexes 。默认情况下，该参数为0，表示不限制，当设置改参数为大于0的值的时候，表示MySQL在一分钟内记录的不使用索引的SQL的数量，来避免慢日志记录过多的该类SQL.
 
-​    在MySQL 5.7.2 之后，如果设置了慢日志是写到文件里，需要设置log_timestamps 来控制写入到慢日志文件里面的时区（该参数同时影响general日志和err日志）。如果设置慢日志是写入到数据库中，该参数将不产生作用。
+在MySQL 5.7.2 之后，如果设置了慢日志是写到文件里，需要设置log_timestamps 来控制写入到慢日志文件里面的时区（该参数同时影响general日志和err日志）。如果设置慢日志是写入到数据库中，该参数将不产生作用。
 
 所以，总结下哪些SQL能被MySQL慢日志记录：
 
@@ -37,7 +37,7 @@ tags:
 
 注：修改密码之类的维护操作，密码部分将会被星号代替，避免明文显示。
 
-## Anemometer 简介：
+### 2 Anemometer 简介：
 
 项目地址：https://github.com/box/Anemometer
 
@@ -99,7 +99,7 @@ git clone https://github.com/box/Anemometer.gitanemometer && cd anemometer
 
 ![img](https://ask.qcloudimg.com/http-save/yehe-3663994/y4par7d3qq.png?imageView2/2/w/1620)
 
-配置nginx
+**5 配置nginx**
 
 \# vim /usr/local/nginx/conf/vhost/anemometer.conf  内容如下：
 
@@ -112,7 +112,7 @@ server {
        root  /data/web3/anemometer;
        include enable-php.conf;
 }
-# /etc/init.d/nginx reload      重载nginx配置文件
+/etc/init.d/nginx reload      重载nginx配置文件
 ```
 
 在浏览器访问http://192.168.0.88/ 即可如下图所示(这几张图片是从别人博客摘录的，他这个截图做的特别详细)
@@ -123,9 +123,9 @@ server {
 
 ![img](https://ask.qcloudimg.com/http-save/yehe-3663994/m12x2d67lk.png?imageView2/2/w/1620)
 
-5 自动滚动日志
+**5 自动滚动日志**
 
-\# vi /etc/logrotate.d/mysql
+ vi /etc/logrotate.d/mysql
 
 ```javascript
 postrotate
@@ -136,7 +136,7 @@ pt-query-digest --user=anemometer --password=123456 \
 endscript
 ```
 
-**多节点mySQL监控慢查询日志**
+### 3 多节点mySQL监控慢查询日志
 
 node1:192.168.2.11   MariaDB10.0.17    还部署有nginx的anemometer web前端
 
