@@ -114,8 +114,6 @@ True Time是Spanner最亮眼的地方。
 
 实现：实现细节论文也没有太多详述，只是描述了大致的原理。每个数据中心都有一个timer master，用以校正全局时钟。每台机器都有一个timeslave daemon来找master poll时间。Master之间为了降低硬件失效，都配了两套时钟硬件：GPS和原子钟。两套硬件失效的因素不同，因此同时失效的概率会比较小。Slave会poll问时间，然后有一套算法来交叉验证。
 
- 
-
 ## **4 Concurrency Control**
 
 这节是讲述TrueTime如何应用到并发控制的。
@@ -127,16 +125,6 @@ Spanner支持的事务类型：读写事务read-write transactions、只读事�
 快照读事务是读过去一个时间点的快照，这个时间点可以是用户指定，也可以是指定一个时间戳上界，Spanner选一个合适的时间戳作为快照点。快照读事务同样不阻塞写。
 
 对于只读事务和快照读事务来说，只要选定了时间点，事务总是可以提交的，除非选的快照点太旧，对应的数据被回收了。只读事务对数据库自身的数据状态没有影响，因此即使在某台机器上读了一半的数据时，机器宕机，仍然可以换机器用一样的时间戳重试，结果不会有变化。
-
-### **外部一致性保证**
-
-读写事务使用两阶段锁（two phase locking, 2PL），因此给读写事务指定时间戳的时机可以是在全部锁已申请到锁释放前的任何时刻。Spanner给事务指定的时间戳是Paxos write用的时间戳，这个时间戳是代表了事务提交的时间。
-
-那么，Paxos write用的时间戳是如何指定的呢？这个时间戳就是由leader replica简单地按照递增的顺序指定的。当然，这之外还需要一个约束：在切换leader replica时，仍然保证跨主备切换下的时间戳也是递增的。这个约束论文称之为单调不变性monotonicity invariant。
-
-这个约束如何实现？首先，Spanner的paxos leader lease已经保证leader的lease没有交集，在此条件下，在发生主备切切换时，主想卸任要先等一下。思路很简单，详细的分析在附录A上有，不再赘述。
-
-Spanner还保证了外部一致性约束（external consistency invariant）：如果T2开始前T1已经提交，则T1的提交时间戳早于T2的提交时间戳，即 
 
 ### **外部一致性保证**
 
@@ -163,15 +151,15 @@ $$
 
  这两个规则就保证了外部一致性：
 
-$$s_1<t_{abs}(e_1^{commit})$$   (commit wait)  
+​                    $$s_1<t_{abs}(e_1^{commit})$$   (commit wait)  
 
-$$t_{abs}(e^{commit}_1)<t_{abs}(e_2^{start})$$      (assumption) 
+​                    $$t_{abs}(e^{commit}_1)<t_{abs}(e_2^{start})$$      (assumption) 
 
-$$t_{abs}(e_2^{start})≤t_abs(e_2^{server})$$   (causality) 
+​                   $$t_{abs}(e_2^{start})≤t_abs(e_2^{server})$$   (causality) 
 
-$$t_{abs}(e^{server}_2)≤s_2 $$                 (start)  
+​                  $$t_{abs}(e^{server}_2)≤s_2 $$           (start)  
 
-$$s_1<s_2 $$                             (transitivity)
+​                  $$s_1<s_2 $$                    (transitivity)
 
 ### **Spanner**是如何做事务的？
 
